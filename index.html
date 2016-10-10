@@ -90,24 +90,28 @@
     </footer>
 
     <template id="template-person-name">
-      <span>{{ first | capitalized }} {{ last | capitalized }}</span>
+      <span>{{ first | textcapitalized }} {{ last | textcapitalized }}</span>
     </template>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.0.3/vue-resource.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js"></script>
     <script src="https://vuejs.mikesprague.me/shared/js/components.js"></script>
-    <script src="https://vuejs.mikesprague.me/shared/js/filters.js"></script>
     <script>
       var footer = new Vue({
         el: ".footer"
       });
 
       Vue.filter( "dateonly", function ( str ) {
-        return str.split( ' ' )[0];
+        return _.chain( str ).split( ' ' ).head().value();
       });
 
-      Vue.filter( "capitalized", function( str ) {
-        return str[0].toUpperCase() + str.slice(1);
+      Vue.filter( "textcapitalized", function( str ) {
+        return _.capitalize( str );
+      });
+
+      Vue.filter( "titlecase", function( str ) {
+        return _.startCase( str );
       });
 
       Vue.component( "person-name", {
